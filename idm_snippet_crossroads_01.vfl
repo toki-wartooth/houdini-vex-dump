@@ -1,0 +1,23 @@
+float radius = chf("radius");
+int pts[] = nearpoints(1, v@P, radius, 10);
+
+int n = len(pts);
+int stop = 0;
+int i = 0;
+while(stop != 1 && i<n)
+{
+    int n_path_id = point(1, "path_id", pts[i]);
+    int n_idm_corner_id = point(1, "idm_crossroad_id", pts[i]);
+    if (i@path_id != n_path_id && i@idm_crossroad_id == n_idm_corner_id)
+    {
+        vector n_pos = point(1, "P", pts[i]);
+        int n_pt = addpoint(0, n_pos);
+        int pr = addprim(0, "polyline", @ptnum, n_pt);
+        stop = 1;
+    }
+
+    i++;
+}
+
+idm_crossroad_id
+idm_corner_id

@@ -1,0 +1,28 @@
+int pts[] = nearpoints(1,v@P,50,10);
+int n = len(pts);
+int t_pt = -1;
+float min_ratio = 1e+6;
+for (int i=0; i<n; i++)
+{
+    int n_path_id = point(1, "path_id", pts[1]);
+    int n_idm_corner_id = point(1, "idm_corner_id", pts[i]);
+    if(i@path_id != n_path_id && i@idm_corner_id == n_idm_corner_id)
+    {
+        vector n_N = point(1, "N", pts[i]);
+        vector cp = cross(v@N, n_N);
+        float ratio = (1-dot(v@N, n_N)) * sign( cp.y );
+        if(ratio < min_ratio)
+        {
+            min_ratio = ratio;
+            t_pt = pts[i];
+            
+        }
+    }
+}
+if (t_pt != -1)
+
+{
+    vector n_pos = point(1, "P", t_pt);
+    int n_pt = addpoint(0, n_pos);
+    int pr = addprim(0, "polyline", @ptnum, n_pt);
+}
