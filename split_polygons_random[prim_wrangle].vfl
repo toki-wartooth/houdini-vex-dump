@@ -1,0 +1,69 @@
+vector getPos(int prim; int i)
+{
+        int lvtx = vertexindex(0, prim, i);
+        int pnt = vertexpoint(0, lvtx);
+        return point(0, "P", pnt);      
+}
+void polysplit(vector pos[]; vector pos1[]; vector pos2[])
+{
+        vector center = set(0,0,0);
+        for(int i = 0; i<4; i++)
+        {
+                center += pos[i];
+        }
+        center /=4;
+        float dir = random(center);
+        float offset = random(center *2);
+        vector xV = pos[1] - pos[0];
+        vector yV = pos[3] - pos[0];
+        if (dir < 0.5)
+        {       
+                pos1[0] = pos[0];
+                pos1[1] = pos[0] + xV * offset;
+                pos1[2] = pos[3] + xV * offset;
+                pos1[3] = pos[3];
+
+                pos2[0] = pos[0] + xV * offset;
+                pos2[1] = pos[1];
+                pos2[2] = pos[2];
+                pos2[3] = pos[3] + xV * offset;
+        }
+        else
+        {
+                pos1[0] = pos[0];
+                pos1[1] = pos[1];
+                pos1[2] = pos[1] + yV * offset;
+                pos1[3] = pos[0] + yV * offset;
+
+                pos2[0] = pos[0] + yV * offset;
+                pos2[1] = pos[1] + yV * offset;
+                pos2[2] = pos[2];
+                pos2[3] = pos[3];
+        }
+}
+void polyextrude(vector newpos[])
+{
+    int prim = addprim(0, "poly");
+    for (int i = 0; i < 4; i++)
+    {
+            int point = addpoint(0, newpos[i]);
+            addvertex(0, prim, point);
+
+    }
+    //return prim;
+}
+
+
+vector pos[], pos1[], pos2[];
+for (int i = 0; i<4; i++)
+{
+        pos[i] = getPos(@primnum, i);
+
+}
+
+
+polysplit(pos, pos1, pos2);
+polyextrude(pos1);
+polyextrude(pos2);
+
+removeprim(0,@primnum, 1);
