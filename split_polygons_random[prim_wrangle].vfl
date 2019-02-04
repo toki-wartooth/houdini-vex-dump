@@ -4,7 +4,8 @@ vector getPos(int prim; int i)
         int pnt = vertexpoint(0, lvtx);
         return point(0, "P", pnt);      
 }
-void polysplit(vector pos[]; vector pos1[]; vector pos2[])
+
+void polysplit(vector pos[]; vector pos1[]; vector pos2[]; int dir)
 {
         vector center = set(0,0,0);
         for(int i = 0; i<4; i++)
@@ -12,11 +13,12 @@ void polysplit(vector pos[]; vector pos1[]; vector pos2[])
                 center += pos[i];
         }
         center /=4;
-        float dir = random(center);
-        float offset = random(center *2);
+        //float dir = chi("dir");//random(center);
+
+        float offset = 0.5;//random(center *2);
         vector xV = pos[1] - pos[0];
         vector yV = pos[3] - pos[0];
-        if (dir < 0.5)
+        if (dir < 0)
         {       
                 pos1[0] = pos[0];
                 pos1[1] = pos[0] + xV * offset;
@@ -62,7 +64,36 @@ for (int i = 0; i<4; i++)
 }
 
 
-polysplit(pos, pos1, pos2);
+int dir;
+float dist_up = distance(pos[0], pos[1]);
+float dist_down = distance(pos[0], pos[-1]);
+if (dist_up < dist_down)
+{
+    dir = 0;
+}
+else
+{
+    dir = 1;
+}
+
+
+
+
+int dd = dir ;
+
+
+
+if(chi("dir") > 0)
+{
+    //int dd = i@dir;
+}
+else
+{
+    //int dd = int(1-i@dir);
+}
+
+
+polysplit(pos, pos1, pos2, dd);
 polyextrude(pos1);
 polyextrude(pos2);
 
