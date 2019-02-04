@@ -69,7 +69,7 @@ float dist_up = distance(pos[0], pos[1]);
 float dist_down = distance(pos[0], pos[-1]);
 if (dist_up < dist_down)
 {
-    dir = 0;
+    dir = -1;
 }
 else
 {
@@ -77,21 +77,15 @@ else
 }
 
 
-
-
-int dd = dir ;
-
-
-
-if(chi("dir") > 0)
+int dd;
+if(chi("dir")>0)
 {
-    //int dd = i@dir;
+    dd = dir;
 }
-else
+else 
 {
-    //int dd = int(1-i@dir);
+    dd = 1-dir;
 }
-
 
 polysplit(pos, pos1, pos2, dd);
 polyextrude(pos1);
